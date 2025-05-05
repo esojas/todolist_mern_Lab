@@ -1,24 +1,31 @@
-version: '3'
-
 services:
   # Backend service
   backend:
-    build: ./  # Assuming your backend is in the root directory
+    build: .
     ports:
       - "5001:5000"
     environment:
-      - CONNECTION_URL=mongodb://mongodb:27017/test
+      - NODE_ENV=development
       - PORT=5000
+      - CONNECTION_URL=mongodb://mongodb:27017/todo_db
       - REFRESH_TOKEN_SECRET=REPO123
+      - DEFAULT_CLIENT_URL=http://localhost:3000
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
     depends_on:
       - mongodb
     restart: always
+    volumes:
+      - .:/app
+      - /app/node_modules
 
   # MongoDB service
   mongodb:
     image: mongo:latest
     ports:
       - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=todo_db
     volumes:
       - mongo-data:/data/db
     restart: always

@@ -12,5 +12,9 @@ COPY . .
 # Expose the port your app runs on
 EXPOSE 5000
 
-# Command to run the application
-CMD ["node", "index.js"]
+# Environment variables
+ENV NODE_ENV=development
+ENV PORT=5000
+
+# Command to run the application with nodemon
+CMD ["npm", "start"]
